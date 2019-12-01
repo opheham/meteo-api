@@ -1,0 +1,76 @@
+{# templates/admission/homepage.html.twig #}
+
+{% extends "base.html.twig" %}
+
+{% block body %}
+
+<div class="row">
+    <div class="col-md-3">
+
+        <div class="card" style="width: 18rem;">
+            <img src="{{ asset('imgs/icons/stations.svg') }}" class="mt-4 mb-2 mx-auto" alt="Station icon" height="122px">
+            <div class="card-body">
+                <h5 class="card-title">Stations météo</h5>
+                <p class="card-text">
+                    La collecte des données est assurée par de petits modules autonomes.<br />
+                    Le système enregistre automatiquement et alimente seul la base de données.
+                </p>
+            </div>
+        </div>
+
+    </div>
+    <div class="col-md-3">
+
+        <div class="card" style="width: 18rem;">
+            <img src="{{ asset('imgs/icons/api.svg') }}" class="mt-4 mb-2 mx-auto" alt="API icon" height="122px">
+            <div class="card-body">
+                <h5 class="card-title">Api</h5>
+                <p class="card-text">
+                    Un Service Web de gestion des données est mis à votre disposition.<br />
+                    Son rôle est principalement :
+                </p>
+                <p>
+                    La sauvegarde,la centralisation et la redistribution des données envoyées par vos stations.
+                </p>
+                {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+                <a href="{{ path('api_entrypoint') }}" class="btn btn-primary">La documentation</a>
+                {% endif %}
+            </div>
+        </div>
+
+    </div>
+    <div class="col-md-3">
+
+        <div class="card" style="width: 18rem;">
+            <img src="{{ asset('imgs/icons/admin.svg') }}" class="mt-4 mb-2 mx-auto" alt="Admin icon" height="122px">
+            <div class="card-body">
+                <h5 class="card-title">Administration</h5>
+                <p class="card-text">
+                    Un espace ajusté à votre utilisation. Retrouvez vos données sous forme de statistiques, de carte de
+                    consultation en
+                    temps réel.
+                </p>
+            </div>
+        </div>
+
+    </div>
+    <div class="col-md-3">
+
+        <div class="card" style="width: 18rem;">
+            <img src="{{ asset('imgs/icons/mobile.svg') }}" class="mt-4 mb-2 mx-auto" alt="App icon" height="122px">
+            <div class="card-body">
+                <h5 class="card-title">Application mobile</h5>
+                <p class="card-text">
+                    Dans votre poche :
+                </p>
+                <ul>
+                    <li>Des alertes en temps réel.</li>
+                    <li>La géolocalisation de vos stations.</li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}

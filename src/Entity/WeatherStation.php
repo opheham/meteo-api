@@ -1,4 +1,4 @@
-<?php
+<?php // src/Entity/WeatherStation.php
 
 namespace App\Entity;
 
@@ -8,15 +8,21 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Une station météo
+ * WeatherStation entity
+ * The weather station is the heart of the system. It is created around an Arduino Nano board. It is equipped with different sensors that will allow it to transmit data.
+ * 
  * @ApiResource()
  * @ORM\Entity(repositoryClass="App\Repository\WeatherStationRepository")
  * @ORM\HasLifecycleCallbacks
+ * 
+ * @author Olivier FILLOL <fillol.olivier@gmail.com>
+ * @version 1.0.0
  */
 class WeatherStation
 {
     /**
-     * L'ID de la station météo
+     * Weather station ID
+     * 
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(
@@ -29,7 +35,8 @@ class WeatherStation
     private $id;
 
     /**
-     * Le nom de la station
+     * Weather station name
+     * 
      * @ORM\Column(
      *      type="string",
      *      length=255,
@@ -41,7 +48,8 @@ class WeatherStation
     private $name;
 
     /**
-     * La description de la station
+     * Weather station description
+     * 
      * @ORM\Column(
      *      type="text",
      *      options={
@@ -52,7 +60,8 @@ class WeatherStation
     private $description;
 
     /**
-     * La latitude de la station
+     * Weather station latitude
+     * 
      * @ORM\Column(
      *      type="float",
      *      nullable=true,
@@ -64,7 +73,8 @@ class WeatherStation
     private $lat;
 
     /**
-     * La longitude de la station
+     * Weather station longitude
+     * 
      * @ORM\Column(
      *      type="float", 
      *      nullable=true,
@@ -76,7 +86,8 @@ class WeatherStation
     private $lng;
 
     /**
-     * La date de la création de la station
+     * Weather station creation date
+     * 
      * @ORM\Column(
      *      type="datetime",
      *      options={
@@ -87,7 +98,8 @@ class WeatherStation
     private $createdAt;
 
     /**
-     * La date de la dernière mise à jour de la station
+     * Weather station update date
+     * 
      * @ORM\Column(
      *      type="datetime",
      *      options={
@@ -98,32 +110,60 @@ class WeatherStation
     private $updatedAt;
 
     /**
-     * Les capteurs météo de la station
-     * @ORM\OneToMany(targetEntity="App\Entity\Sensor", mappedBy="weatherStation", orphanRemoval=true)
+     * Weather station sensors
+     * 
+     * @ORM\OneToMany(
+     *      targetEntity="App\Entity\Sensor",
+     *      mappedBy="weatherStation",
+     *      orphanRemoval=true
+     * )
      */
     private $sensors;
 
     /**
-     * La version logicielle de la station
-     * @ORM\ManyToOne(targetEntity="App\Entity\SoftwareVersion", inversedBy="weatherStations")
+     * Weather station software version
+     * @ORM\ManyToOne(
+     *      targetEntity="App\Entity\SoftwareVersion",
+     *      inversedBy="weatherStations"
+     * )
      */
     private $softwareVersion;
+    
 
+    /**
+     * Weather station constructor
+     */
     public function __construct()
     {
         $this->sensors = new ArrayCollection();
     }
 
+    /**
+     * Returns the ID
+     *
+     * @return integer|null
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    /**
+     * Returns the name
+     *
+     * @return string|null
+     */
     public function getName(): ?string
     {
         return $this->name;
     }
 
+    /**
+     * Sets the name
+     *
+     * @param string $name
+     * @return self
+     */
     public function setName(string $name): self
     {
         $this->name = $name;
@@ -131,11 +171,22 @@ class WeatherStation
         return $this;
     }
 
+    /**
+     * Returns the description
+     *
+     * @return string|null
+     */
     public function getDescription(): ?string
     {
         return $this->description;
     }
 
+    /**
+     * Sets the description
+     *
+     * @param string $description
+     * @return self
+     */
     public function setDescription(string $description): self
     {
         $this->description = $description;
@@ -143,23 +194,45 @@ class WeatherStation
         return $this;
     }
 
+    /**
+     * Returns the latitude
+     *
+     * @return float|null
+     */
     public function getLat(): ?float
     {
         return $this->lat;
     }
 
+    /**
+     * Sets the latitude
+     *
+     * @param float|null $lat
+     * @return self
+     */
     public function setLat(?float $lat): self
     {
         $this->lat = $lat;
 
         return $this;
     }
-
+    
+    /**
+     * Returns the longitude
+     *
+     * @return float|null
+     */
     public function getLng(): ?float
     {
         return $this->lng;
     }
 
+    /**
+     * Sets the longitude
+     *
+     * @param float|null $lng
+     * @return self
+     */
     public function setLng(?float $lng): self
     {
         $this->lng = $lng;
@@ -167,13 +240,22 @@ class WeatherStation
         return $this;
     }
 
+    /**
+     * Returns the creation date
+     *
+     * @return \DateTimeInterface|null
+     */
     public function getCreatedAt(): ?\DateTimeInterface
     {
         return $this->createdAt;
     }
 
     /**
+     * Sets automatically the creation date
+     * 
      * @ORM\PrePersist
+     *
+     * @return self
      */
     public function setCreatedAt(): self
     {
@@ -182,14 +264,23 @@ class WeatherStation
         return $this;
     }
 
+    /**
+     * Returns the update date
+     *
+     * @return \DateTimeInterface|null
+     */
     public function getUpdatedAt(): ?\DateTimeInterface
     {
         return $this->updatedAt;
     }
 
     /**
+     * Sets automatically the update date
+     * 
      * @ORM\PrePersist
      * @ORM\PreUpdate
+     *
+     * @return self
      */
     public function setUpdatedAt(): self
     {
@@ -199,6 +290,8 @@ class WeatherStation
     }
 
     /**
+     * Returns the sensors list
+     * 
      * @return Collection|Sensor[]
      */
     public function getSensors(): Collection
@@ -206,6 +299,12 @@ class WeatherStation
         return $this->sensors;
     }
 
+    /**
+     * Adds a sensor to the list
+     *
+     * @param Sensor $sensor
+     * @return self
+     */
     public function addSensor(Sensor $sensor): self
     {
         if (!$this->sensors->contains($sensor)) {
@@ -216,6 +315,12 @@ class WeatherStation
         return $this;
     }
 
+    /**
+     * Deletes a sensor from the list
+     *
+     * @param Sensor $sensor
+     * @return self
+     */
     public function removeSensor(Sensor $sensor): self
     {
         if ($this->sensors->contains($sensor)) {
@@ -228,12 +333,23 @@ class WeatherStation
 
         return $this;
     }
-
+    
+    /**
+     * Returns the software version
+     *
+     * @return SoftwareVersion|null
+     */
     public function getSoftwareVersion(): ?SoftwareVersion
     {
         return $this->softwareVersion;
     }
 
+    /**
+     * Sets the software version
+     *
+     * @param SoftwareVersion|null $softwareVersion
+     * @return self
+     */
     public function setSoftwareVersion(?SoftwareVersion $softwareVersion): self
     {
         $this->softwareVersion = $softwareVersion;

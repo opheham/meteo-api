@@ -1,4 +1,4 @@
-<?php
+<?php // src/Entity/SensorType.php
 
 namespace App\Entity;
 
@@ -8,13 +8,21 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
+ * SensorType entity.
+ * The type of sensor defined a weather sensor.
+ * 
  * @ApiResource()
  * @ORM\Entity(repositoryClass="App\Repository\SensorTypeRepository")
  * @ORM\HasLifecycleCallbacks
+ * 
+ * @author Olivier FILLOL <fillol.olivier@gmail.com>
+ * @version 1.0.0
  */
 class SensorType
 {
     /**
+     * Sensor type ID
+     * 
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(
@@ -27,6 +35,8 @@ class SensorType
     private $id;
 
     /**
+     * Sensor type name
+     * 
      * @ORM\Column(
      *      type="string",
      *      length=255,
@@ -38,6 +48,8 @@ class SensorType
     private $name;
 
     /**
+     * Sensor type description
+     * 
      * @ORM\Column(
      *      type="text",
      *      options={
@@ -48,6 +60,8 @@ class SensorType
     private $description;
 
     /**
+     * Sensor type creation date
+     * 
      * @ORM\Column(
      *      type="datetime",
      *      options={
@@ -58,6 +72,8 @@ class SensorType
     private $createdAt;
 
     /**
+     * Sensor type update date
+     * 
      * @ORM\Column(
      *      type="datetime",
      *      options={
@@ -68,25 +84,51 @@ class SensorType
     private $updatedAt;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Sensor", mappedBy="sensorType", orphanRemoval=true)
+     * Sensors list associated with SensorType
+     * 
+     * @ORM\OneToMany(
+     *      targetEntity="App\Entity\Sensor",
+     *      mappedBy="sensorType",
+     *      orphanRemoval=true
+     * )
      */
     private $sensors;
 
+    
+    /**
+     * Sensor type constructor
+     */
     public function __construct()
     {
         $this->sensors = new ArrayCollection();
     }
 
+    /**
+     * Returns the ID
+     *
+     * @return integer|null
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    /**
+     * Returns the name
+     *
+     * @return string|null
+     */
     public function getName(): ?string
     {
         return $this->name;
     }
 
+    /**
+     * Sets the name
+     *
+     * @param string $name
+     * @return self
+     */
     public function setName(string $name): self
     {
         $this->name = $name;
@@ -94,11 +136,22 @@ class SensorType
         return $this;
     }
 
+    /**
+     * Returns the description
+     *
+     * @return string|null
+     */
     public function getDescription(): ?string
     {
         return $this->description;
     }
 
+    /**
+     * Sets the description
+     *
+     * @param string $description
+     * @return self
+     */
     public function setDescription(string $description): self
     {
         $this->description = $description;
@@ -106,31 +159,55 @@ class SensorType
         return $this;
     }
 
+    /**
+     * Returns the creation date
+     *
+     * @return \DateTimeInterface|null
+     */
     public function getCreatedAt(): ?\DateTimeInterface
     {
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    /**
+     * Sets automatically the creation date
+     *
+     * @param \DateTimeInterface $createdAt
+     * @return self
+     */
+    public function setCreatedAt(): self
     {
-        $this->createdAt = $createdAt;
-
-        return $this;
-    }
-
-    public function getUpdatedAt(): ?\DateTimeInterface
-    {
-        return $this->updatedAt;
-    }
-
-    public function setUpdatedAt(\DateTimeInterface $updatedAt): self
-    {
-        $this->updatedAt = $updatedAt;
+        $this->createdAt = new \DateTime();
 
         return $this;
     }
 
     /**
+     * Returns the update date
+     *
+     * @return \DateTimeInterface|null
+     */
+    public function getUpdatedAt(): ?\DateTimeInterface
+    {
+        return $this->updatedAt;
+    }
+
+    /**
+     * Sets automatically the update date
+     *
+     * @param \DateTimeInterface $updatedAt
+     * @return self
+     */
+    public function setUpdatedAt(): self
+    {
+        $this->updatedAt = new \DateTime();
+
+        return $this;
+    }
+
+    /**
+     * Returns the sensors list
+     *
      * @return Collection|Sensor[]
      */
     public function getSensors(): Collection
@@ -138,6 +215,12 @@ class SensorType
         return $this->sensors;
     }
 
+    /**
+     * Adds a sensor to sensors list
+     *
+     * @param Sensor $sensor
+     * @return self
+     */
     public function addSensor(Sensor $sensor): self
     {
         if (!$this->sensors->contains($sensor)) {
@@ -148,6 +231,12 @@ class SensorType
         return $this;
     }
 
+    /**
+     * Deletes a sensor from the sensors list
+     *
+     * @param Sensor $sensor
+     * @return self
+     */
     public function removeSensor(Sensor $sensor): self
     {
         if ($this->sensors->contains($sensor)) {

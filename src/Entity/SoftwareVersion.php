@@ -1,4 +1,4 @@
-<?php
+<?php // src/Entity/SoftwareVersion.php
 
 namespace App\Entity;
 
@@ -8,15 +8,21 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Version logicielle des stations météo
+ * SoftwareVersion entity
+ * Weather station software version
+ * 
  * @ApiResource()
  * @ORM\Entity(repositoryClass="App\Repository\SoftwareVersionRepository")
  * @ORM\HasLifecycleCallbacks
+ * 
+ * @author Olivier FILLOL <fillol.olivier@gmail.com>
+ * @version 1.0.0
  */
 class SoftwareVersion
 {
     /**
-     * L'ID de la version logicielle
+     * Software version ID
+     * 
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(
@@ -29,7 +35,8 @@ class SoftwareVersion
     private $id;
 
     /**
-     * Le numéro de version
+     * Software version number
+     * 
      * @ORM\Column(
      *      type="string",
      *      length=255,
@@ -41,7 +48,8 @@ class SoftwareVersion
     private $version;
 
     /**
-     * La date de création de la version logicielle
+     * Software version creation date
+     * 
      * @ORM\Column(
      *      type="datetime",
      *      options={
@@ -52,26 +60,46 @@ class SoftwareVersion
     private $createdAt;
 
     /**
-     * Les stations météo équipées de la version logicielle
+     * Weather stations using the software version
+     * 
      * @ORM\OneToMany(targetEntity="App\Entity\WeatherStation", mappedBy="softwareVersion")
      */
     private $weatherStations;
-
+    
+    /**
+     * Software version constructor
+     */
     public function __construct()
     {
         $this->weatherStations = new ArrayCollection();
     }
 
+    /**
+     * Returns ID
+     *
+     * @return integer|null
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    /**
+     * Returns software version number
+     *
+     * @return string|null
+     */
     public function getVersion(): ?string
     {
         return $this->version;
     }
 
+    /**
+     * Sets software version number
+     *
+     * @param string $version
+     * @return self
+     */
     public function setVersion(string $version): self
     {
         $this->version = $version;
@@ -79,12 +107,19 @@ class SoftwareVersion
         return $this;
     }
 
+    /**
+     * Returns creation date
+     *
+     * @return \DateTimeInterface|null
+     */
     public function getCreatedAt(): ?\DateTimeInterface
     {
         return $this->createdAt;
     }
 
     /**
+     * Sets automatically creation data
+     * 
      * @ORM\PrePersist
      */
     public function setCreatedAt(): self
@@ -95,6 +130,8 @@ class SoftwareVersion
     }
 
     /**
+     * Returns the weather stations using the software version
+     * 
      * @return Collection|WeatherStation[]
      */
     public function getWeatherStations(): Collection
@@ -102,6 +139,12 @@ class SoftwareVersion
         return $this->weatherStations;
     }
 
+    /**
+     * Adds a weather station to the list
+     *
+     * @param WeatherStation $weatherStation
+     * @return self
+     */
     public function addWeatherStation(WeatherStation $weatherStation): self
     {
         if (!$this->weatherStations->contains($weatherStation)) {
@@ -112,6 +155,12 @@ class SoftwareVersion
         return $this;
     }
 
+    /**
+     * Deletes weather station from the list
+     *
+     * @param WeatherStation $weatherStation
+     * @return self
+     */
     public function removeWeatherStation(WeatherStation $weatherStation): self
     {
         if ($this->weatherStations->contains($weatherStation)) {

@@ -1,4 +1,4 @@
-<?php
+<?php // src/Entity/WeatherData.php
 
 namespace App\Entity;
 
@@ -6,15 +6,21 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Donnée météo enregistrée depuis un capteur.
+ * WeatherData entity
+ * Weather data obtained from a sensor
+ * 
  * @ApiResource()
  * @ORM\Entity(repositoryClass="App\Repository\WeatherDataRepository")
  * @ORM\HasLifecycleCallbacks
+ * 
+ * @author Olivier FILLOL <fillol.olivier@gmail.com>
+ * @version 1.0.0
  */
 class WeatherData
 {
     /**
-     * L'ID de la donnée météo
+     * Weather data ID
+     * 
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(
@@ -27,7 +33,8 @@ class WeatherData
     private $id;
 
     /**
-     * La valeur de la donnée météo
+     * Weather data value
+     * 
      * @ORM\Column(
      *      type="float",
      *      options={
@@ -38,7 +45,8 @@ class WeatherData
     private $value;
 
     /**
-     * La date d'obtention de la donnée météo
+     * Weather data creation date
+     * 
      * @ORM\Column(type="datetime",
      *      options={
      *          "comment": "La date d'obtention de la donnée météo"
@@ -48,22 +56,40 @@ class WeatherData
     private $createdAt;
 
     /**
-     * Le capteur ayant permis l'obtention de la donnée météo
+     * Weather data sensor
+     * 
      * @ORM\ManyToOne(targetEntity="App\Entity\Sensor", inversedBy="weatherData")
      * @ORM\JoinColumn(nullable=false)
      */
     private $sensor;
+    
 
+    /**
+     * Returns the ID
+     *
+     * @return integer|null
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    /**
+     * Returns the value
+     *
+     * @return float|null
+     */
     public function getValue(): ?float
     {
         return $this->value;
     }
 
+    /**
+     * Sets the value
+     *
+     * @param float $value
+     * @return self
+     */
     public function setValue(float $value): self
     {
         $this->value = $value;
@@ -71,13 +97,22 @@ class WeatherData
         return $this;
     }
 
+    /**
+     * Returns thecreation date
+     *
+     * @return \DateTimeInterface|null
+     */
     public function getCreatedAt(): ?\DateTimeInterface
     {
         return $this->createdAt;
     }
 
     /**
+     * Sets automatically the creation date
+     * 
      * @ORM\PrePersist
+     *
+     * @return self
      */
     public function setCreatedAt(): self
     {
@@ -86,11 +121,22 @@ class WeatherData
         return $this;
     }
 
+    /**
+     * Returns the sensor
+     *
+     * @return Sensor|null
+     */
     public function getSensor(): ?Sensor
     {
         return $this->sensor;
     }
 
+    /**
+     * Sets the sensor
+     *
+     * @param Sensor|null $sensor
+     * @return self
+     */
     public function setSensor(?Sensor $sensor): self
     {
         $this->sensor = $sensor;
