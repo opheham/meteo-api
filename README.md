@@ -30,7 +30,7 @@ You can also follow [Symfony's deployment](https://symfony.com/doc/4.3/deploymen
 
 ## License
 
-Aduino Weather System API is completely free and released under the [MIT License](https://github.com/opheham/weather-api/master/LICENSE).
+Aduino Weather System API is completely free and released under the [MIT License](https://github.com/opheham/weather-api/blob/master/LICENCE.md).
 
 ## Authors
 
